@@ -43,8 +43,15 @@ app.use(session({
   })
 }))
 router(app)
-app.listen(config.port, () => {
-  console.log(`成功监听端口：${config.port}`);
-})
+function listen() {
+  const server = app.listen(config.port, () => {
+    console.log(`成功监听端口：${config.port}`);
+  })
+  return server
+}
 
-module.exports = app
+if (process.env.NODE_ENV !== 'stage') {
+  listen()
+}
+
+module.exports = { app, listen }
